@@ -1,0 +1,13 @@
+.SideBar {
+    display: flex;
+    background-color: #7ed957;
+    flex-direction: column;
+    max-width: 200px;
+    padding: 20px;
+    height: 100vh;
+    gap: 70px;
+}
+
+.SideBar button {
+    padding: 10px;
+}

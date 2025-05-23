@@ -1,0 +1,17 @@
+.topbar {
+    margin: 0px;
+    padding: 0 20px;
+    display: flex;
+    font-size: 1.5em;
+    background-color: #003f1f;
+    align-items: center;
+    justify-content: space-between;
+    color: #7ed957;
+    height: 120px;
+}
+
+.logo img{
+    width: 22%;
+    padding: 25px;
+}
+
