@@ -7,11 +7,13 @@ import BtAdd from './BtAdd'
 const TopBar = () => {
   return (
     <div className={styles.topbar}>
-      <div className={styles.logo}>
-        <img src="/logo_com_contorno_branco.png" alt="Logo"/>
+      <div className={styles.leftGroup}>
+        <div className={styles.logo}>
+          <img src="/logo_com_contorno_branco.png" alt="Logo" />
+        </div>
+        <button className={styles.venda}>Nova venda</button>
+        <button className={styles.addestoque}>Adicionar ao estoque</button>
       </div>
-      <BtVenda />
-      <BtAdd/>
       <Time />
     </div>
   )
