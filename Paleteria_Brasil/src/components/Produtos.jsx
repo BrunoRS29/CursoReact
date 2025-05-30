@@ -116,10 +116,9 @@ export default function Produtos() {
 
   return (
     <div className={styles.produtos}>
-      <h2>Gerenciar Produtos</h2>
 
-      <div className={styles.filtros}>
-        <label>Tipo: </label>
+      <div className={styles.topo}>
+        <button className={styles.botao} onClick={() => abrirModal()}>Registrar Produto</button>
         <select
           value={tipoSelecionado}
           onChange={(e) => setTipoSelecionado(e.target.value)}
@@ -128,7 +127,6 @@ export default function Produtos() {
           <option value="Pote">Pote</option>
           <option value="Matéria-prima">Matéria-prima</option>
         </select>
-        <button onClick={() => abrirModal()}>Registrar Produto</button>
       </div>
 
       <table>
@@ -166,7 +164,7 @@ export default function Produtos() {
               )}
 
               <td>
-                <button onClick={() => abrirModal(p)}>Editar</button>
+                <button className={styles.btnTabela} onClick={() => abrirModal(p)}>Editar</button>
               </td>
             </tr>
           ))}
@@ -224,13 +222,13 @@ export default function Produtos() {
             <div className={styles.modalButtons}>
               {modoEdicao ? (
                 <>
-                  <button onClick={handleUpdate}>Atualizar</button>
-                  <button onClick={handleDelete}>Remover</button>
+                  <button className={styles.botao2} onClick={handleUpdate}>Atualizar</button>
+                  <button className={styles.botao2} onClick={handleDelete}>Remover</button>
                 </>
               ) : (
-                <button onClick={handleAdd}>Salvar</button>
+                <button className={styles.botao2} onClick={handleAdd}>Salvar</button>
               )}
-              <button onClick={fecharModal}>Cancelar</button>
+              <button className={styles.botao2} onClick={fecharModal}>Cancelar</button>
             </div>
           </div>
         </div>
