@@ -1,99 +1,76 @@
 import { useEffect, useState } from 'react';
+import {
+  listarFornecedores,
+  inserirFornecedor,
+  alterarFornecedor,
+  removerFornecedor
+} from '../services/fornecedor.js';
+import styles from '../styles/Fornecedor.module.css';
 
 export default function Fornecedores() {
-    const [fornecedores, setFornecedores] = useState([]);
-    const [form, setForm] = useState({id: '', cnpj: '', nome_fornecedor: '', telefone: '' });
-    const [modoEdicao, setModoEdicao] = useState(false);
+  const [fornecedores, setFornecedores] = useState([]);
+  const [form, setForm] = useState({ id: '', cnpj: '', nome_fornecedor: '', telefone: '' });
+  const [modoEdicao, setModoEdicao] = useState(false);
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+  useEffect(() => {
+    carregarFornecedores();
+  }, []);
 
-    const baseUrl = 'http://localhost:8080';
+  const carregarFornecedores = async () => {
+    try {
+      const data = await listarFornecedores();
+      setFornecedores(data);
+    } catch (error) {
+      console.error(error);
+      setFornecedores([]);
+    }
+  };
 
-    const buscarFornecedores = async () => {
-        try {
-            const response = await fetch("http://localhost:8080/fornecedor/listar");
-            if (!response.ok) throw new Error("Erro na requisição");
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const limparFormulario = () => setForm({ id: '', cnpj: '', nome_fornecedor: '', telefone: '' }) || setModoEdicao(false);
 
-            const data = await response.json();
-            setFornecedores(data);
-        } catch (error) {
-            console.error("Erro ao buscar fornecedores:", error);
-            setFornecedores([]); // ou null, mas cuidado com o uso de map
-        }
-    };
-
-    const adicionarFornecedor = async () => {
-    await fetch(`${baseUrl}/fornecedor/inserir`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-    });
-    await buscarFornecedores();
+  const handleAdd = async () => {
+    await inserirFornecedor(form);
+    await carregarFornecedores();
     limparFormulario();
-    };
+  };
 
-    const atualizarFornecedor = async () => {
-    await fetch(`${baseUrl}/fornecedor/alterar/${form.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-    });
-    await buscarFornecedores();
+  const handleUpdate = async () => {
+    await alterarFornecedor(form.id, form);
+    await carregarFornecedores();
     limparFormulario();
-    };
+  };
 
-    const removerFornecedor = async () => {
-    await fetch(`${baseUrl}/fornecedor/remover/${form.id}`, {
-        method: 'DELETE',
-    });
-    await buscarFornecedores();
+  const handleDelete = async () => {
+    await removerFornecedor(form.id);
+    await carregarFornecedores();
     limparFormulario();
-    };
+  };
 
-
-  const selecionarFornecedor = (fornecedor) => {
-    setForm(fornecedor);
+  const selecionarFornecedor = (f) => {
+    setForm(f);
     setModoEdicao(true);
   };
 
-  function limparFormulario() {
-  setForm({ id: '', cnpj: '', nome_fornecedor: '', telefone: '' });
-  setModoEdicao(false);
-}
-
-
-    useEffect(() => {
-    buscarFornecedores();
-  }, []);
-
   return (
-    <div>
-    
+    <div className={styles.fornecedores}>
       <h2>Gerenciar Fornecedores</h2>
 
-     
-      
-      <div>
-        <input name="cnpj" placeholder="CNPJ" value={form.cnpj} onChange={handleChange}/>
-        <input name="nome_fornecedor" placeholder="Nome" value={form.nome_fornecedor} onChange={handleChange} />
-        <input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange} />
-      </div>
+      <input name="cnpj" placeholder="CNPJ" value={form.cnpj} onChange={handleChange}/>
+      <input name="nome_fornecedor" placeholder="Nome" value={form.nome_fornecedor} onChange={handleChange}/>
+      <input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange}/>
 
-      <div>
-        {!modoEdicao ? (
-          <button onClick={adicionarFornecedor}>Adicionar</button>
-        ) : (
-          <>
-            <button onClick={atualizarFornecedor}>Atualizar</button>
-            <button onClick={removerFornecedor}>Remover</button>
-            <button onClick={limparFormulario}>Cancelar</button>
-          </>
-        )}
-      </div>
+      {!modoEdicao ? (
+        <button onClick={handleAdd}>Adicionar</button>
+      ) : (
+        <>
+          <button onClick={handleUpdate}>Atualizar</button>
+          <button onClick={handleDelete}>Remover</button>
+          <button onClick={limparFormulario}>Cancelar</button>
+        </>
+      )}
 
-      <table border="1">
+      <table>
         <thead>
           <tr>
             <th>CNPJ</th>
@@ -108,9 +85,7 @@ export default function Fornecedores() {
               <td>{f.cnpj}</td>
               <td>{f.nome_fornecedor}</td>
               <td>{f.telefone}</td>
-              <td>
-                <button onClick={() => selecionarFornecedor(f)}>Editar</button>
-              </td>
+              <td><button onClick={() => selecionarFornecedor(f)}>Editar</button></td>
             </tr>
           ))}
         </tbody>

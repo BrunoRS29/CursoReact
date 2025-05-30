@@ -1,0 +1,113 @@
+.produtos {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.produtos h2, .produtos h3 {
+  margin-top: 20px;
+}
+
+.produtos table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.produtos th, .produtos td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.produtos button {
+  margin-right: 5px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.produtos {
+  max-width: 1000px;
+  padding: 20px;
+  background-color: white;
+  height: 100%;
+  overflow-y: auto;
+  font-family: sans-serif;
+}
+
+.produtos h2 {
+  color: #004d25;
+  margin-bottom: 20px;
+}
+
+.produtos input {
+  margin: 5px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.produtos button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #003f1f;
+  color: #7ed957;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.produtos table {
+  margin-top: 10px;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; 
+  border-spacing: 0; 
+  border: 1px solid #7ed957; 
+  border-radius: 12px;
+  overflow: hidden; 
+}
+
+.produtos th,
+.produtos td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #7ed957;
+}
+
+.produtos th:last-child,
+.produtos td:last-child {
+  width: 80px;
+  
+}
+
+.produtos th {
+  background-color: #7ed957;
+  color: #003f1f;
+}
+
