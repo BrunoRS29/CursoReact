@@ -1,0 +1,33 @@
+.vendas table {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #7ed957;
+  border-radius: 12px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+.vendas th, 
+.vendas td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #7ed957;
+}
+
+.vendas th {
+  background-color: #7ed957;
+  color: #003f1f;
+}
+
+.vendas th:last-child, 
+.vendas td:last-child {
+  width: 80px;
+}
+
+.vendas th:first-child, 
+.vendas td:first-child {
+  width: 50px;
+}
