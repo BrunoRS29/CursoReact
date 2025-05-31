@@ -48,3 +48,5 @@ export async function removerProduto(id) {
   });
   if (!res.ok) throw new Error('Erro ao remover produto');
 }
+
+

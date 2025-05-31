@@ -20,14 +20,25 @@
 }
 
 .fornecedores button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
+  margin-left: 15px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
   background-color: #003f1f;
-  color: #7ed957;
-  border-radius: 6px;
+  color: #7ed957; 
+  border: none;
+  border-radius: 6px; 
   cursor: pointer;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
+.fornecedores button:hover {
+  background-color: #ffcb04;
+  color: #003f1f;
+}
+
 
 .fornecedores table {
   margin-top: 10px;

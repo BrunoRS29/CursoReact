@@ -12,7 +12,7 @@ const TopBar = () => {
           <img src="/logo_com_contorno_branco.png" alt="Logo" />
         </div>
         <button className={styles.venda}>Nova venda</button>
-        <button className={styles.addestoque}>Adicionar ao estoque</button>
+        <BtAdd/>
       </div>
       <Time />
     </div>

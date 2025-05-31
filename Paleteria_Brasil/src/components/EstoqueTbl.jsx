@@ -7,14 +7,15 @@ import {
 import styles from '../styles/estoque.module.css';
 
 export default function EstoqueTbl() {
-  const emptyItem = {
+    const emptyItem = {
     id: null,
     quantProduto: '',
     dataEnt: '',
     validadeProd: '',
     statusProd: '',
-    produto: { id: '', nomeProd: '', tipoProduto: '' }
+    produto: { id: '', nomeProd: '', tipoProduto: '', subtipoProduto: '' }
   };
+
 
   const [estoque, setEstoque] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -95,6 +96,7 @@ export default function EstoqueTbl() {
         <thead>
           <tr>
             <th>Produto</th>
+            <th>Subtipo</th>
             <th>Quantidade</th>
             <th>Data Entrada</th>
             <th>Validade</th>
@@ -106,6 +108,7 @@ export default function EstoqueTbl() {
           {estoqueFiltrado.map((item) => (
             <tr key={item.id}>
               <td>{item.produto.nomeProd}</td>
+              <td>{item.produto.subtipoProduto}</td>
               <td>{item.quantProduto}</td>
               <td>{item.dataEnt}</td>
               <td>{item.validadeProd}</td>
