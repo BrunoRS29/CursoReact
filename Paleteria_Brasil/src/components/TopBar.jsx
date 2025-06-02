@@ -11,7 +11,7 @@ const TopBar = () => {
         <div className={styles.logo}>
           <img src="/logo_com_contorno_branco.png" alt="Logo" />
         </div>
-        <button className={styles.venda}>Nova venda</button>
+        <BtVenda/>
         <BtAdd/>
       </div>
       <Time />

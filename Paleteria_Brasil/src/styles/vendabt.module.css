@@ -1,0 +1,156 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  background-color: #fff;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  gap: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+}
+
+.tableSection {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tabelaItens {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.tabelaItens th,
+.tabelaItens td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.tabelaItens th {
+  background-color: #f0f0f0;
+}
+
+.nenhumItem {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.subtotal {
+  font-size: 16px;
+  text-align: right;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modalButtons button {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #1976d2;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.modalButtons button:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+.modalButtons button:hover:not(:disabled) {
+  background-color: #115293;
+}
+
+.formSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.formSection label {
+  font-weight: 600;
+}
+
+.formSection select,
+.formSection input[type="number"] {
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline-offset: 2px;
+  outline-color: transparent;
+  transition: outline-color 0.2s ease;
+}
+
+.formSection select:focus,
+.formSection input[type="number"]:focus {
+  outline-color: #1976d2;
+}
+
+.btnAdicionar {
+  margin-top: 10px;
+  padding: 10px 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+  background-color: #388e3c;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnAdicionar:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.btnAdicionar:hover:not(:disabled) {
+  background-color: #2e7d32;
+}
+
+.btnTabela {
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btnTabela:hover {
+  background-color: #115293;
+}

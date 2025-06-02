@@ -149,7 +149,7 @@ const BtAdd = ({ onInserido }) => {
             >
               <option value="">Selecione o produto</option>
               {produtosFiltrados.map(prod => (
-                <option key={prod.id} vaue={prod.id}>
+                <option key={prod.id} value={prod.id}>
                   {prod.nomeProd}
                 </option>
               ))}
