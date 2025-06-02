@@ -8,7 +8,7 @@ import {
 import styles from '../styles/Produtos.module.css';
 
 export default function Produtos() {
-    const FIXO_FORNECEDOR_ID = '1';
+  const FIXO_FORNECEDOR_ID = '1';
   const [produtos, setProdutos] = useState([]);
   const [form, setForm] = useState({
     id_produto: '',
@@ -27,45 +27,46 @@ export default function Produtos() {
   }, []);
 
   const carregarProdutos = async () => {
-  try {
-    const data = await listarProdutos();
-    const produtosMapeados = data.map(p => ({
-      id_produto: p.id,
-      nome_prod: p.nomeProd,
-      tipo_produto: p.tipoProduto,
-      subtipo_produto: p.subtipoProduto,
-      valor_prod: p.valorProd,
-      fk_fornecedor_id_fornecedor: p.fornecedor?.id?.toString() ?? ''
-    }));
-    setProdutos(produtosMapeados);
-  } catch (error) {
-    console.error("Erro ao carregar produtos:", error);
-  }
-};
-
+    try {
+      const data = await listarProdutos();
+      const produtosMapeados = data.map(p => ({
+        id_produto: p.id,
+        nome_prod: p.nomeProd,
+        tipo_produto: p.tipoProduto,
+        subtipo_produto: p.subtipoProduto,
+        valor_prod: p.valorProd,
+        fk_fornecedor_id_fornecedor: p.fornecedor?.id?.toString() ?? ''
+      }));
+      setProdutos(produtosMapeados);
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+    }
+  };
 
   const handleChange = (e) => {
-        const { name, value } = e.target;
+    const { name, value } = e.target;
 
-        if (name === 'tipo_produto') {
-            if (value === 'Paleta' || value === 'Pote') {
-            setForm(prev => ({
-                ...prev,
-                tipo_produto: value,
-                fk_fornecedor_id_fornecedor: FIXO_FORNECEDOR_ID, // fixa o fornecedor
-            }));
-            } else {
-            // Matéria-prima permite editar fornecedor
-            setForm(prev => ({
-                ...prev,
-                tipo_produto: value,
-                fk_fornecedor_id_fornecedor: '', // limpa para preencher manualmente
-            }));
-            }
-        } else {
-            setForm(prev => ({ ...prev, [name]: value }));
-        }
-    };
+    if (name === 'tipo_produto') {
+      if (value === 'Paleta' || value === 'Pote') {
+        setForm(prev => ({
+          ...prev,
+          tipo_produto: value,
+          subtipo_produto: '',
+          fk_fornecedor_id_fornecedor: FIXO_FORNECEDOR_ID, // fixa o fornecedor
+        }));
+      } else {
+        // Matéria-prima permite editar fornecedor e subtipo manualmente
+        setForm(prev => ({
+          ...prev,
+          tipo_produto: value,
+          subtipo_produto: '',
+          fk_fornecedor_id_fornecedor: '',
+        }));
+      }
+    } else {
+      setForm(prev => ({ ...prev, [name]: value }));
+    }
+  };
 
   const limparFormulario = () => {
     setForm({
@@ -116,9 +117,10 @@ export default function Produtos() {
 
   return (
     <div className={styles.produtos}>
-
       <div className={styles.topo}>
-        <button className={styles.botao} onClick={() => abrirModal()}>Registrar Produto</button>
+        <button className={styles.botao} onClick={() => abrirModal()}>
+          Registrar Produto
+        </button>
         <select
           value={tipoSelecionado}
           onChange={(e) => setTipoSelecionado(e.target.value)}
@@ -134,7 +136,6 @@ export default function Produtos() {
           <tr>
             <th>Nome</th>
             <th>Subtipo</th>
-            {/* Se não for matéria-prima, só Valor; senão Valor + Fornecedor */}
             {tipoSelecionado !== 'Matéria-prima' ? (
               <th>Valor</th>
             ) : (
@@ -153,10 +154,8 @@ export default function Produtos() {
               <td>{p.subtipo_produto}</td>
 
               {tipoSelecionado !== 'Matéria-prima' ? (
-                // Paleta/Pote: só valor
                 <td>{p.valor_prod}</td>
               ) : (
-                // Matéria-prima: valor + fornecedor
                 <>
                   <td>{p.valor_prod}</td>
                   <td>{p.fk_fornecedor_id_fornecedor}</td>
@@ -164,7 +163,9 @@ export default function Produtos() {
               )}
 
               <td>
-                <button className={styles.btnTabela} onClick={() => abrirModal(p)}>Editar</button>
+                <button className={styles.btnTabela} onClick={() => abrirModal(p)}>
+                  Editar
+                </button>
               </td>
             </tr>
           ))}
@@ -174,8 +175,11 @@ export default function Produtos() {
       {mostrarModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h3>{modoEdicao ? 'Editar Produto' : 'Registrar Produto'}</h3>
+            <h3>
+              {modoEdicao ? 'Editar Produto' : 'Registrar Produto'}
+            </h3>
 
+            {/* Select para Tipo */}
             <select
               name="tipo_produto"
               value={form.tipo_produto}
@@ -187,6 +191,7 @@ export default function Produtos() {
               <option value="Matéria-prima">Matéria-prima</option>
             </select>
 
+            {/* Nome */}
             <input
               name="nome_prod"
               placeholder="Nome"
@@ -194,13 +199,44 @@ export default function Produtos() {
               onChange={handleChange}
             />
 
-            <input
-              name="subtipo_produto"
-              placeholder="Subtipo"
-              value={form.subtipo_produto}
-              onChange={handleChange}
-            />
+            {/* Subtipo condicional */}
+            {form.tipo_produto === 'Paleta' && (
+              <select
+                name="subtipo_produto"
+                value={form.subtipo_produto}
+                onChange={handleChange}
+              >
+                <option value="">Selecione o subtipo</option>
+                <option value="Recheada">Recheada</option>
+                <option value="Cremosa">Cremosa</option>
+                <option value="Fruta">Fruta</option>
+                <option value="Zero">Zero</option>
+              </select>
+            )}
 
+            {form.tipo_produto === 'Pote' && (
+              <select
+                name="subtipo_produto"
+                value={form.subtipo_produto}
+                onChange={handleChange}
+              >
+                <option value="">Selecione o subtipo</option>
+                <option value="300ml">300ml</option>
+                <option value="1L">1L</option>
+                <option value="2L">2L</option>
+              </select>
+            )}
+
+            {form.tipo_produto === 'Matéria-prima' && (
+              <input
+                name="subtipo_produto"
+                placeholder="Subtipo"
+                value={form.subtipo_produto}
+                onChange={handleChange}
+              />
+            )}
+
+            {/* Valor */}
             <input
               name="valor_prod"
               placeholder="Valor"
@@ -209,7 +245,7 @@ export default function Produtos() {
               onChange={handleChange}
             />
 
-            {/* Fornecedor só no modal de matéria-prima */}
+            {/* Fornecedor só para Matéria-prima */}
             {form.tipo_produto === 'Matéria-prima' && (
               <input
                 name="fk_fornecedor_id_fornecedor"
@@ -222,18 +258,37 @@ export default function Produtos() {
             <div className={styles.modalButtons}>
               {modoEdicao ? (
                 <>
-                  <button className={styles.botao2} onClick={handleUpdate}>Atualizar</button>
-                  <button className={styles.botao2} onClick={handleDelete}>Remover</button>
+                  <button
+                    className={styles.botao2}
+                    onClick={handleUpdate}
+                  >
+                    Atualizar
+                  </button>
+                  <button
+                    className={styles.botao2}
+                    onClick={handleDelete}
+                  >
+                    Remover
+                  </button>
                 </>
               ) : (
-                <button className={styles.botao2} onClick={handleAdd}>Salvar</button>
+                <button
+                  className={styles.botao2}
+                  onClick={handleAdd}
+                >
+                  Salvar
+                </button>
               )}
-              <button className={styles.botao2} onClick={fecharModal}>Cancelar</button>
+              <button
+                className={styles.botao2}
+                onClick={fecharModal}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-
 }

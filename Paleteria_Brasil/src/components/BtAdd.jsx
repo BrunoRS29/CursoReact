@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { inserirEstoque, listarProdutosPorTipo } from '../services/estoque';
+import { 
+  inserirEstoque, 
+  listarProdutosPorTipoESubtipo, 
+  listarSubtiposPorTipo 
+} from '../services/estoque';
 import styles from '../styles/estoquebt.module.css';
 
 const BtAdd = ({ onInserido }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  // Usaremos só “produtosFiltrados”, que vem do back via listarProdutosPorTipo(tipo).
   const [produtosFiltrados, setProdutosFiltrados] = useState([]);
+  const [subtiposDisponiveis, setSubtiposDisponiveis] = useState([]);
+
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
+  const [subtipoSelecionado, setSubtipoSelecionado] = useState('');
 
   const [novoItem, setNovoItem] = useState({
     quantProduto: '',
@@ -16,46 +22,52 @@ const BtAdd = ({ onInserido }) => {
     produto: { id: '' }
   });
 
-  /**
-   * Toda vez que o usuário mudar "categoriaSelecionada", chamamos o backend:
-   * listarProdutosPorTipo(categoriaSelecionada).
-   * Se categoriaSelecionada === '', limpamos o array para não mostrar nada.
-   */
+  // Buscar subtipos dinamicamente ao selecionar a categoria
   useEffect(() => {
-    async function buscarProdutosDoTipo() {
-      // Se não houver categoria selecionada, limpa a lista e sai
+    async function buscarSubtipos() {
       if (!categoriaSelecionada) {
-        setProdutosFiltrados([]);
-        setNovoItem(prev => ({
-          ...prev,
-          produto: { id: '' }
-        }));
+        setSubtiposDisponiveis([]);
+        setSubtipoSelecionado('');
         return;
       }
-
       try {
-        // Passa explicitamente o tipo para o serviço
-        const data = await listarProdutosPorTipo(categoriaSelecionada);
-        console.log('Produtos retornados:', data);
-        // data deve ser algo como: [{ id, nome, tipo }, ...]
-        setProdutosFiltrados(data);
-
-        // Zera a seleção de “produto” caso já houvesse algo marcado
-        setNovoItem(prev => ({
-          ...prev,
-          produto: { id: '' }
-        }));
+        const data = await listarSubtiposPorTipo(categoriaSelecionada);
+        setSubtiposDisponiveis(data);
+        setSubtipoSelecionado('');
       } catch (err) {
-        console.error('Erro ao carregar produtos por tipo:', err);
+        console.error('Erro ao carregar subtipos:', err);
       }
     }
 
-    buscarProdutosDoTipo();
+    buscarSubtipos();
   }, [categoriaSelecionada]);
+
+  // Buscar produtos ao mudar categoria ou subtipo
+  useEffect(() => {
+    async function buscarProdutos() {
+      if (!categoriaSelecionada) {
+        setProdutosFiltrados([]);
+        setNovoItem(prev => ({ ...prev, produto: { id: '' } }));
+        return;
+      }
+      try {
+        const data = await listarProdutosPorTipoESubtipo(categoriaSelecionada, subtipoSelecionado);
+        console.log('Produtos retornados:', data);
+        setProdutosFiltrados(data);
+        setNovoItem(prev => ({ ...prev, produto: { id: '' } }));
+      } catch (err) {
+        console.error('Erro ao carregar produtos:', err);
+      }
+    }
+
+    buscarProdutos();
+  }, [categoriaSelecionada, subtipoSelecionado]);
 
   const abrirModal = () => {
     setCategoriaSelecionada('');
+    setSubtipoSelecionado('');
     setProdutosFiltrados([]);
+    setSubtiposDisponiveis([]);
     setNovoItem({
       quantProduto: '',
       validadeProd: '',
@@ -69,13 +81,8 @@ const BtAdd = ({ onInserido }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Se for o select de produto (name="produto.id"), atualiza só produto.id
     if (name === 'produto.id') {
-      setNovoItem(prev => ({
-        ...prev,
-        produto: { ...prev.produto, id: Number(value) }
-    }));
+      setNovoItem(prev => ({ ...prev, produto: { ...prev.produto, id: Number(value) } }));
     } else {
       setNovoItem(prev => ({ ...prev, [name]: value }));
     }
@@ -129,7 +136,7 @@ const BtAdd = ({ onInserido }) => {
               onChange={handleChange}
             />
 
-            {/* 1) Select de categoria (sempre habilitado) */}
+            {/* Select de categoria */}
             <select
               value={categoriaSelecionada}
               onChange={(e) => setCategoriaSelecionada(e.target.value)}
@@ -140,7 +147,21 @@ const BtAdd = ({ onInserido }) => {
               <option value="matéria-prima">Matéria-prima</option>
             </select>
 
-            {/* 2) Select de produto: habilitado somente se categoriaSelecionada tiver valor */}
+            {/* Select de subtipo dinâmico */}
+            <select
+              value={subtipoSelecionado}
+              onChange={(e) => setSubtipoSelecionado(e.target.value)}
+              disabled={!categoriaSelecionada || subtiposDisponiveis.length === 0}
+            >
+              <option value="">Selecione um subtipo</option>
+              {subtiposDisponiveis.map(sub => (
+                <option key={sub.subtipoProduto} value={sub.subtipoProduto}>
+                  {sub.subtipoProduto}
+                </option>
+              ))}
+            </select>
+
+            {/* Select de produto */}
             <select
               name="produto.id"
               value={novoItem.produto.id}

@@ -1,4 +1,5 @@
 const BASE_URL = 'http://localhost:8080/transacao';
+const BASE_URL2 = 'http://localhost:8080/estoque';
 
 export async function listarVendasDoDia() {
   try {
@@ -16,7 +17,7 @@ export async function listarVendasDoDia() {
 
 export async function enviarVenda(vendaDTO) {
   try {
-    const response = await fetch(`${BASE_URL}/inserir`, {
+    const response = await fetch(`${BASE_URL2}/novaVenda`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,15 +26,27 @@ export async function enviarVenda(vendaDTO) {
     });
 
     if (!response.ok) {
-      // Se houver algum texto de erro vindo no corpo, você pode ler:
       const textoErro = await response.text();
       throw new Error(`Erro ao enviar venda: ${textoErro || response.statusText}`);
     }
 
-    // Não tentamos ler response.json(), porque sua API não retorna JSON no corpo.
-    return; 
+    return; // Nada a retornar, sucesso simples
   } catch (error) {
     console.error('enviarVenda (fetch) →', error);
+    throw error;
+  }
+}
+
+export async function listarVendasPorData(data) {
+  try {
+    const response = await fetch(`${BASE_URL}/listarPorData/${data}`);
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar vendas por data: ${response.status} ${response.statusText}`);
+    }
+    const resultado = await response.json();
+    return resultado;
+  } catch (error) {
+    console.error('listarVendasPorData (fetch) →', error);
     throw error;
   }
 }

@@ -1,14 +1,9 @@
 const baseUrl = 'http://localhost:8080/estoque';
 
 // Mapeia apenas os campos que o EstoqueCreateDTO espera:
-//   • quantProduto
-//   • validadeProd
-//   • statusProd
-//   • produtoId
 function mapToPayloadEstoque(item) {
   return {
     quantProduto: parseInt(item.quantProduto, 10),
-    // dataEnt NÃO deve aparecer aqui, pois o DTO não tem esse campo
     validadeProd: item.validadeProd,
     statusProd: item.statusProd,
     produtoId: parseInt(item.produto.id, 10)
@@ -38,14 +33,9 @@ export async function inserirEstoque(item) {
 }
 
 export async function alterarEstoque(id, item) {
-  // No PUT, você envia um objeto “Estoque” inteiro (não o DTO), 
-  // então aqui pode incluir dataEnt se quiser manter a data original ou outro campo.
-  // Mas se seu controller de PUT estiver esperando um Estoque entity completo,
-  // você pode enviar dataEnt + validadeProd + statusProd + produto:{id} etc.
-  // Aqui fica o exemplo para manter compatibilidade com a sua rota de PUT atual:
   const payload = {
     quantProduto: parseInt(item.quantProduto, 10),
-    dataEnt: item.dataEnt,              // o campo que a entidade Estoque tem
+    dataEnt: item.dataEnt,
     validadeProd: item.validadeProd,
     statusProd: item.statusProd,
     produto: { id: parseInt(item.produto.id, 10) }
@@ -74,5 +64,26 @@ export async function removerEstoque(id) {
 export async function listarProdutosPorTipo(tipo) {
   const res = await fetch(`http://localhost:8080/produto/listar/${encodeURIComponent(tipo)}`);
   if (!res.ok) throw new Error('Erro ao listar produtos por tipo');
+  return await res.json();
+}
+
+export async function listarSubtiposPorTipo(tipo) {
+  const url = `http://localhost:8080/produto/listar/BuscarSubtipo/${encodeURIComponent(tipo)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Erro ao listar subtipos por tipo');
+  return await res.json();
+}
+
+export async function listarProdutosPorTipoESubtipo(tipo, subtipo) {
+  if (!subtipo || subtipo.trim() === '') {
+    console.warn('Subtipo inválido para busca:', subtipo);
+    return [];
+  }
+
+  const url = `http://localhost:8080/produto/listar/ListarProduto/${encodeURIComponent(subtipo)}`;
+  console.log("Buscando:", url);
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Erro ao listar produtos por subtipo');
   return await res.json();
 }
