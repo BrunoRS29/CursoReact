@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { listarVendasPorData } from '../services/vendas'; // Novo serviço que recebe a data
+import { listarVendasPorData } from '../services/vendas'; 
 import styles from '../styles/vendasDia.module.css';
 
 export default function VendasFiltradas() {
   const [dataSelecionada, setDataSelecionada] = useState(() => {
-    const hoje = new Date().toISOString().split('T')[0]; // formato yyyy-mm-dd
+    const hoje = new Date().toISOString().split('T')[0]; 
     return hoje;
   });
   const [vendas, setVendas] = useState([]);
@@ -12,7 +12,11 @@ export default function VendasFiltradas() {
   useEffect(() => {
     const carregarVendas = async () => {
       try {
-        const data = await listarVendasPorData(dataSelecionada);
+        // Converte de yyyy-MM-dd → dd-MM-yyyy
+        const [ano, mes, dia] = dataSelecionada.split('-');
+        const dataFormatada = `${dia}-${mes}-${ano}`;
+
+        const data = await listarVendasPorData(dataFormatada);
         setVendas(data);
       } catch (err) {
         console.error('Erro ao carregar vendas:', err);

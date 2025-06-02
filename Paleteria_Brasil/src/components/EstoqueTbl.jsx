@@ -76,7 +76,9 @@ export default function EstoqueTbl() {
   };
 
   const estoqueFiltrado = estoque.filter(e =>
-    e.produto && e.produto.tipoProduto === tipoSelecionado
+    e.produto &&
+    e.produto.tipoProduto === tipoSelecionado &&
+    e.statusProd !== 'Indisponivel'
   );
 
   return (
@@ -111,7 +113,7 @@ export default function EstoqueTbl() {
               <td>{item.produto.subtipoProduto}</td>
               <td>{item.quantProduto}</td>
               <td>{item.dataEnt}</td>
-              <td>{item.validadeProd}</td>
+              <td>{new Date(item.validadeProd + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
               <td>{item.statusProd}</td>
               <td>
                 <button

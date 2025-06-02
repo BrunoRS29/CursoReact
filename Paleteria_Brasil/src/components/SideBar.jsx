@@ -1,17 +1,16 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from '../styles/SideBar.module.css';
 
 const buttons = [
   { id: 'vendas', label: 'Vendas' },
-  { id: 'estoque', label: 'Estoque' },
   { id: 'historico', label: 'Histórico' },
-  { id: 'relatorio', label: 'Relatório' },
+  { id: 'estoque', label: 'Estoque' },
   { id: 'registrar', label: 'Registrar' },
   { id: 'contatos', label: 'Contatos' },
 ];
 
 const SideBar = () => {
-  const location = useLocation();
+
 
   return (
     <div className={styles.SideBar}>

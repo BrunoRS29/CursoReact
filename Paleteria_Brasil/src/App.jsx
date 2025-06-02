@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import TopBar from './components/TopBar'
 import './styles/index.css'
 import SideBar from './components/SideBar'
@@ -9,23 +8,28 @@ import Historico from './pages/Historico';
 import Relatorio from './pages/Relatorio';
 import Registrar from './pages/Registrar';
 import Contatos from './pages/Contatos';
+import Validade from './components/Validade';
 
 
 function App() {
 
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Navigate to="/vendas"/>}/>
-        <Route path="/vendas" element={<Vendas />} />
-        <Route path="/estoque" element={<Estoque />} />
-        <Route path="/historico" element={<Historico />} />
-        <Route path="/relatorio" element={<Relatorio />} />
-        <Route path="/registrar" element={<Registrar />} />
-        <Route path="/contatos" element={<Contatos />} />
-      </Routes>
-    </Router>
+    <div>
+      <Validade/>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Navigate to="/vendas"/>}/>
+          <Route path="/vendas" element={<Vendas />} />
+          <Route path="/estoque" element={<Estoque />} />
+          <Route path="/historico" element={<Historico />} />
+          <Route path="/relatorio" element={<Relatorio />} />
+          <Route path="/registrar" element={<Registrar />} />
+          <Route path="/contatos" element={<Contatos />} />
+        </Routes>
+      </Router>
+    </div>
+    
   )
 }
 

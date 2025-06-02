@@ -32,15 +32,21 @@ const BtAdd = ({ onInserido }) => {
       }
       try {
         const data = await listarSubtiposPorTipo(categoriaSelecionada);
-        setSubtiposDisponiveis(data);
+
+        // Remove duplicados:
+        const subtiposUnicos = Array.from(
+          new Set(data.map(sub => sub.subtipoProduto))
+        ).map(subtipo => ({ subtipoProduto: subtipo }));
+
+        setSubtiposDisponiveis(subtiposUnicos);
         setSubtipoSelecionado('');
       } catch (err) {
         console.error('Erro ao carregar subtipos:', err);
       }
-    }
+  }
 
-    buscarSubtipos();
-  }, [categoriaSelecionada]);
+  buscarSubtipos();
+}, [categoriaSelecionada]);
 
   // Buscar produtos ao mudar categoria ou subtipo
   useEffect(() => {
@@ -122,7 +128,7 @@ const BtAdd = ({ onInserido }) => {
 
             <input
               name="validadeProd"
-              type="text"
+              type="date"
               placeholder="Validade (ex: 2025-07-15)"
               value={novoItem.validadeProd}
               onChange={handleChange}
@@ -154,8 +160,8 @@ const BtAdd = ({ onInserido }) => {
               disabled={!categoriaSelecionada || subtiposDisponiveis.length === 0}
             >
               <option value="">Selecione um subtipo</option>
-              {subtiposDisponiveis.map(sub => (
-                <option key={sub.subtipoProduto} value={sub.subtipoProduto}>
+              {subtiposDisponiveis.map((sub, index) => (
+                <option key={index} value={sub.subtipoProduto}>
                   {sub.subtipoProduto}
                 </option>
               ))}
