@@ -5,11 +5,13 @@ import {
   alterarProduto,
   removerProduto
 } from '../services/produto';
+import { listarFornecedores } from '../services/fornecedor';
 import styles from '../styles/Produtos.module.css';
 
 export default function Produtos() {
   const FIXO_FORNECEDOR_ID = '1';
   const [produtos, setProdutos] = useState([]);
+  const [fornecedores, setFornecedores] = useState([]);
   const [form, setForm] = useState({
     id_produto: '',
     nome_prod: '',
@@ -26,6 +28,19 @@ export default function Produtos() {
     carregarProdutos();
   }, []);
 
+  useEffect(() => {
+    const carregarFornecedores = async () => {
+      try {
+        const data = await listarFornecedores();
+        console.log('lista de fornecedores recebida:', data);
+        setFornecedores(data);
+      } catch (error) {
+        console.error("Erro ao carregar fornecedores:", error);
+      }
+    };
+    carregarFornecedores();
+  }, []);
+
   const carregarProdutos = async () => {
     try {
       const data = await listarProdutos();
@@ -35,7 +50,8 @@ export default function Produtos() {
         tipo_produto: p.tipoProduto,
         subtipo_produto: p.subtipoProduto,
         valor_prod: p.valorProd,
-        fk_fornecedor_id_fornecedor: p.fornecedor?.id?.toString() ?? ''
+        fk_fornecedor_id_fornecedor: p.fornecedor?.id?.toString() ?? '',
+        nome_fornecedor: p.fornecedor?.nome_fornecedor ?? ''
       }));
       setProdutos(produtosMapeados);
     } catch (error) {
@@ -52,7 +68,7 @@ export default function Produtos() {
           ...prev,
           tipo_produto: value,
           subtipo_produto: '',
-          fk_fornecedor_id_fornecedor: FIXO_FORNECEDOR_ID, // fixa o fornecedor
+          fk_fornecedor_id_fornecedor: FIXO_FORNECEDOR_ID,
         }));
       } else {
         // Matéria-prima permite editar fornecedor e subtipo manualmente
@@ -82,7 +98,14 @@ export default function Produtos() {
 
   const abrirModal = (produto = null) => {
     if (produto) {
-      setForm(produto);
+      setForm({
+        id_produto: produto.id_produto,
+        nome_prod: produto.nome_prod,
+        tipo_produto: produto.tipo_produto,
+        subtipo_produto: produto.subtipo_produto,
+        valor_prod: produto.valor_prod,
+        fk_fornecedor_id_fornecedor: produto.fk_fornecedor_id_fornecedor
+      });
       setModoEdicao(true);
     } else {
       limparFormulario();
@@ -158,7 +181,7 @@ export default function Produtos() {
               ) : (
                 <>
                   <td>{p.valor_prod}</td>
-                  <td>{p.fk_fornecedor_id_fornecedor}</td>
+                  <td>{p.nome_fornecedor}</td>
                 </>
               )}
 
@@ -245,14 +268,26 @@ export default function Produtos() {
               onChange={handleChange}
             />
 
-            {/* Fornecedor só para Matéria-prima */}
+            {/* Select de Fornecedor só para Matéria-prima */}
             {form.tipo_produto === 'Matéria-prima' && (
-              <input
-                name="fk_fornecedor_id_fornecedor"
-                placeholder="ID Fornecedor"
-                value={form.fk_fornecedor_id_fornecedor}
-                onChange={handleChange}
-              />
+              <>
+                {fornecedores.length === 0 ? (
+                  <p>Carregando fornecedores ou nenhum cadastrado.</p>
+                ) : (
+                  <select
+                    name="fk_fornecedor_id_fornecedor"
+                    value={form.fk_fornecedor_id_fornecedor}
+                    onChange={handleChange}
+                  >
+                    <option value="">Selecione o fornecedor</option>
+                    {fornecedores.map(f => (
+                      <option key={f.id} value={f.id}>
+                        {f.nome_fornecedor}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </>
             )}
 
             <div className={styles.modalButtons}>
