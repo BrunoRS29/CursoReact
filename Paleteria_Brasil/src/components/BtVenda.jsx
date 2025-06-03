@@ -37,7 +37,9 @@ const BtVenda = () => {
         .filter(
           (item) =>
             item.produto &&
-            item.produto.tipoProduto?.toLowerCase() === tipoSelecionado.toLowerCase()
+            item.produto.tipoProduto?.toLowerCase() === tipoSelecionado.toLowerCase() &&
+            item.produto.statusProduto !== 'Indisponivel' &&
+            item.quantProduto > 0
         )
         .map((item) => item.produto.subtipoProduto)
         .filter((valor, idx, self) => valor && self.indexOf(valor) === idx);
@@ -163,7 +165,6 @@ const BtVenda = () => {
       {mostrarModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h3>Nova Venda</h3>
 
             {/* FORMULÁRIO À ESQUERDA */}
             <div className={styles.formSection}>
@@ -178,54 +179,48 @@ const BtVenda = () => {
                 <option value="pote">Pote</option>
               </select>
 
-              {tipoSelecionado && (
-                <>
-                  <label htmlFor="select-subtipo">Subtipo:</label>
-                  <select
-                    id="select-subtipo"
-                    value={subtipoSelecionado}
-                    onChange={(e) => setSubtipoSelecionado(e.target.value)}
-                  >
-                    <option value="">Selecione o subtipo</option>
-                    {subtiposDisponiveis.length > 0 ? (
-                      subtiposDisponiveis.map((subtipo, idx) => (
-                        <option key={idx} value={subtipo}>
-                          {subtipo.charAt(0).toUpperCase() + subtipo.slice(1)}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        Nenhum subtipo encontrado
-                      </option>
-                    )}
-                  </select>
-                </>
-              )}
+              <label htmlFor="select-subtipo">Subtipo:</label>
+              <select
+                id="select-subtipo"
+                value={subtipoSelecionado}
+                onChange={(e) => setSubtipoSelecionado(e.target.value)}
+                disabled={!tipoSelecionado}
+              >
+                <option value="">Selecione o subtipo</option>
+                {subtiposDisponiveis.length > 0 ? (
+                  subtiposDisponiveis.map((subtipo, idx) => (
+                    <option key={idx} value={subtipo}>
+                      {subtipo.charAt(0).toUpperCase() + subtipo.slice(1)}
+                    </option>
+                  ))
+                ) : (
+                  <option value="" disabled>
+                    Nenhum subtipo encontrado
+                  </option>
+                )}
+              </select>
 
-              {tipoSelecionado && subtipoSelecionado && (
-                <>
-                  <label htmlFor="select-produto">Produto:</label>
-                  <select
-                    id="select-produto"
-                    value={produtoSelecionado}
-                    onChange={(e) => setProdutoSelecionado(e.target.value)}
-                  >
-                    <option value="">Selecione o produto</option>
-                    {produtosFiltrados.length > 0 ? (
-                      produtosFiltrados.map((prod) => (
-                        <option key={prod.id} value={prod.id}>
-                          {prod.produto.nomeProd} – R$ {prod.produto.valorProd.toFixed(2)} (
-                          {prod.quantProduto} disponíveis)
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        Nenhum produto encontrado
-                      </option>
-                    )}
-                  </select>
-                </>
-              )}
+              <label htmlFor="select-produto">Produto:</label>
+              <select
+                id="select-produto"
+                value={produtoSelecionado}
+                onChange={(e) => setProdutoSelecionado(e.target.value)}
+                disabled={!subtipoSelecionado}
+              >
+                <option value="">Selecione o produto</option>
+                {produtosFiltrados.length > 0 ? (
+                  produtosFiltrados.map((prod) => (
+                    <option key={prod.id} value={prod.id}>
+                      {prod.produto.nomeProd} – R$ {prod.produto.valorProd.toFixed(2)} (
+                      {prod.quantProduto} disponíveis)
+                    </option>
+                  ))
+                ) : (
+                  <option value="" disabled>
+                    Nenhum produto encontrado
+                  </option>
+                )}
+              </select>
 
               <label htmlFor="input-quantidade">Quantidade:</label>
               <input
@@ -298,18 +293,20 @@ const BtVenda = () => {
               ) : (
                 <div className={styles.nenhumItem}>Nenhum item adicionado</div>
               )}
+              <div className={styles.subAndbuttons}>
+                <p className={styles.subtotal}>
+                  <strong>Subtotal:</strong> R$ {subtotal.toFixed(2)}
+                </p>
 
-              <p className={styles.subtotal}>
-                <strong>Subtotal:</strong> R$ {subtotal.toFixed(2)}
-              </p>
-
-              <div className={styles.modalButtons}>
-                <button className={styles.btnCancelar} onClick={fecharModal}>
-                  Cancelar
-                </button>
-                <button className={styles.btnFinalizar} onClick={finalizarVenda}>
-                  Finalizar Venda
-                </button>
+                <div className={styles.modalButtons}>
+                  <button className={styles.btnCancelar} onClick={fecharModal}>
+                    Cancelar
+                  </button>
+                  <button className={styles.btnFinalizar} onClick={finalizarVenda}>
+                    Finalizar Venda
+                  </button>
+              </div>
+              
               </div>
             </div>
           </div>

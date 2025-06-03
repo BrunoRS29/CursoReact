@@ -54,8 +54,6 @@ export default function Fornecedores() {
 
   return (
     <div className={styles.fornecedores}>
-      <h2>Gerenciar Fornecedores</h2>
-
       <input name="cnpj" placeholder="CNPJ" value={form.cnpj} onChange={handleChange}/>
       <input name="nome_fornecedor" placeholder="Nome" value={form.nome_fornecedor} onChange={handleChange}/>
       <input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange}/>

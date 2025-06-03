@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { listarEstoque } from '../services/estoque';
-import styles from '../styles/estoquebt.module.css';
+import styles from '../styles/validade.module.css';
 
 const Validade = () => {
   const [produtosProximos, setProdutosProximos] = useState([]);

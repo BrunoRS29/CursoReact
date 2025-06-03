@@ -118,30 +118,6 @@ const BtAdd = ({ onInserido }) => {
           <div className={styles.modalContent}>
             <h3>Adicionar ao Estoque</h3>
 
-            <input
-              name="quantProduto"
-              type="number"
-              placeholder="Quantidade"
-              value={novoItem.quantProduto}
-              onChange={handleChange}
-            />
-
-            <input
-              name="validadeProd"
-              type="date"
-              placeholder="Validade (ex: 2025-07-15)"
-              value={novoItem.validadeProd}
-              onChange={handleChange}
-            />
-
-            <input
-              name="statusProd"
-              type="text"
-              placeholder="Status (ex: DISPONÍVEL)"
-              value={novoItem.statusProd}
-              onChange={handleChange}
-            />
-
             {/* Select de categoria */}
             <select
               value={categoriaSelecionada}
@@ -184,6 +160,29 @@ const BtAdd = ({ onInserido }) => {
                 <option disabled>Nenhum produto encontrado</option>
               )}
             </select>
+
+            <input
+              name="quantProduto"
+              type="number"
+              placeholder="Quantidade"
+              value={novoItem.quantProduto}
+              onChange={handleChange}
+            />
+
+            <input
+              name="validadeProd"
+              type="date"
+              value={novoItem.validadeProd}
+              onChange={handleChange}
+            />
+
+            <input
+              name="statusProd"
+              type="text"
+              placeholder="Status (ex: disponivel)"
+              value={novoItem.statusProd}
+              onChange={handleChange}
+            />
 
             <div className={styles.modalButtons}>
               <button onClick={handleInsert}>Inserir</button>

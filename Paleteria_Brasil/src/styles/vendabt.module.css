@@ -17,12 +17,11 @@
   max-width: 900px;
   max-height: 90vh;
   overflow-y: auto;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 20px;
   display: flex;
   gap: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  font-family: Arial, sans-serif;
 }
 
 .tableSection {
@@ -34,26 +33,32 @@
 
 .tabelaItens {
   width: 100%;
-  border-collapse: collapse;
+  border-radius: 10px;
   margin-bottom: 15px;
+  border-spacing: 0;
+  border: 1px solid #003f1f;
+  color: #003f1f;
 }
 
 .tabelaItens th,
 .tabelaItens td {
-  border: 1px solid #ccc;
   padding: 8px 10px;
   text-align: left;
   font-size: 14px;
 }
 
-.tabelaItens th {
-  background-color: #f0f0f0;
+.nenhumItem {
+  font-weight: bolder;
+  color: #003f1f;
+  margin-top: 30px;
+  text-align: center;
 }
 
-.nenhumItem {
-  font-style: italic;
-  color: #666;
-  margin-bottom: 15px;
+.subAndbuttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
 }
 
 .subtotal {
@@ -61,6 +66,7 @@
   text-align: right;
   margin-bottom: 15px;
   font-weight: bold;
+  color: #003f1f;
 }
 
 .modalButtons {
@@ -75,9 +81,9 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #1976d2;
-  color: white;
-  transition: background-color 0.3s ease;
+  background-color: #003f1f;
+  color: #7bd953;
+  transition: background-color 0.2s ease;
 }
 
 .modalButtons button:disabled {
@@ -86,7 +92,9 @@
 }
 
 .modalButtons button:hover:not(:disabled) {
-  background-color: #115293;
+  background-color: #ffcb04;
+  cursor: pointer;
+  color: #003f1f;
 }
 
 .formSection {
@@ -112,11 +120,6 @@
   transition: outline-color 0.2s ease;
 }
 
-.formSection select:focus,
-.formSection input[type="number"]:focus {
-  outline-color: #1976d2;
-}
-
 .btnAdicionar {
   margin-top: 10px;
   padding: 10px 0;
@@ -140,17 +143,18 @@
 }
 
 .btnTabela {
-  background-color: #1976d2;
-  color: white;
-  padding: 10px 16px;
-  font-size: 16px;
+  color: #003f1f;
+  background-color: #7ed957;
+  border-radius: 30px;
+  width: 250px;
+  height: 60px;
+  font-size: 1em;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
 .btnTabela:hover {
-  background-color: #115293;
+  background-color: #ffcb04;
+  cursor: pointer;
 }

@@ -1,3 +1,16 @@
+.vendas label {
+  color: #003f1f;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.vendas input {
+  margin: 5px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 2px solid #003f1f;
+}
+
 .vendas table {
   width: 100%;
   margin-top: 10px;
