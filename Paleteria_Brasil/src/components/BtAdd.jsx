@@ -103,7 +103,7 @@ const BtAdd = ({ onInserido }) => {
       fecharModal();
     } catch (err) {
       console.error('Erro ao inserir estoque:', err);
-      alert('Falha ao inserir. Veja o console para detalhes.');
+      console.log('Falha ao inserir. Veja o console para detalhes.');
     }
   };
 
@@ -124,9 +124,9 @@ const BtAdd = ({ onInserido }) => {
               onChange={(e) => setCategoriaSelecionada(e.target.value)}
             >
               <option value="">Selecione uma categoria</option>
-              <option value="paleta">Paleta</option>
-              <option value="pote">Pote</option>
-              <option value="matéria-prima">Matéria-prima</option>
+              <option value="Paleta">Paleta</option>
+              <option value="Pote">Pote</option>
+              <option value="Matéria-prima">Matéria-prima</option>
             </select>
 
             {/* Select de subtipo dinâmico */}

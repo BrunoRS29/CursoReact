@@ -96,7 +96,7 @@ const BtVenda = () => {
     const quantidadeTotal = quantidadeExistente + quantidade;
 
     if (quantidadeTotal > produtoObj.quantProduto) {
-      alert(`Quantidade insuficiente no estoque. Disponível: ${produtoObj.quantProduto}`);
+      console.log(`Quantidade insuficiente no estoque. Disponível: ${produtoObj.quantProduto}`);
       return;
     }
 
@@ -132,11 +132,11 @@ const BtVenda = () => {
 
   const finalizarVenda = async () => {
     if (itensVenda.length === 0) {
-      alert('Adicione ao menos um item para finalizar a venda.');
+      console.log('Adicione ao menos um item para finalizar a venda.');
       return;
     }
     if (!formaPagamento) {
-      alert('Selecione uma forma de pagamento.');
+      console.log('Selecione uma forma de pagamento.');
       return;
     }
 
@@ -148,10 +148,10 @@ const BtVenda = () => {
 
     try {
       await enviarVenda(vendaDTO);
-      alert('Venda realizada com sucesso!');
+      console.log('Venda realizada com sucesso!');
       fecharModal();
     } catch (error) {
-      alert('Falha ao finalizar venda: ' + error.message);
+      console.log('Falha ao finalizar venda: ' + error.message);
       console.error(error);
     }
   };

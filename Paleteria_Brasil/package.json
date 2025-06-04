@@ -1,28 +1,51 @@
 {
   "name": "paleteria-brasil",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "start": "electron .",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "package": "electron-builder"
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.1"
   },
+  "build": {
+    "appId": "com.PaleteriaBrasil.app",
+    "directories": {
+      "buildResources": "public"
+    },
+    "files": [
+      "main.cjs",
+      "dist/**",
+      "data/**"
+    ],
+    "extraResources": [
+      {
+        "from": "./backend",
+        "to": "backend"
+      }
+    ]
+  },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "electron": "^36.3.2",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "vite": "^6.3.5"
-  }
+  },
+  "main": "main.cjs",
+  "license": "ISC"
 }

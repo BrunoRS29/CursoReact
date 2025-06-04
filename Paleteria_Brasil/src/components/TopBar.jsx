@@ -3,13 +3,15 @@ import BtVenda from './BtVenda'
 import Time from './Time'
 import styles from '../styles/TopBar.module.css'
 import BtAdd from './BtAdd'
+import logo from '../assets/logo.png';
+
 
 const TopBar = () => {
   return (
     <div className={styles.topbar}>
       <div className={styles.leftGroup}>
         <div className={styles.logo}>
-          <img src="/logo_com_contorno_branco.png" alt="Logo" />
+          <img src={logo} alt="Logo" />
         </div>
         <BtVenda/>
         <BtAdd/>

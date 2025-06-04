@@ -1,7 +1,7 @@
 import TopBar from './components/TopBar'
 import './styles/index.css'
 import SideBar from './components/SideBar'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Vendas from './pages/Vendas';
 import Estoque from './pages/Estoque';
 import Historico from './pages/Historico';
