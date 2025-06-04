@@ -4,10 +4,15 @@ const path = require('path');
 const { exec } = require('child_process');
 
 function createWindow() {
+  const iconPath = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets', 'icon.ico')
+    : path.join(__dirname, 'src', 'assets', 'icon.ico');
+
+
   const win = new BrowserWindow({
     width: 1000,
     height: 700,
-    icon: path.join(__dirname, 'src', 'assets', 'icon.ico'),
+    icon: iconPath,
     webPreferences: {
       contextIsolation: true,
     },

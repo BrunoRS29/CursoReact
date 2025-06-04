@@ -202,6 +202,14 @@ export default function Produtos() {
               {modoEdicao ? 'Editar Produto' : 'Registrar Produto'}
             </h3>
 
+            {/* Nome */}
+            <input
+              name="nome_prod"
+              placeholder="Nome"
+              value={form.nome_prod}
+              onChange={handleChange}
+            />
+
             {/* Select para Tipo */}
             <select
               name="tipo_produto"
@@ -214,13 +222,7 @@ export default function Produtos() {
               <option value="Matéria-prima">Matéria-prima</option>
             </select>
 
-            {/* Nome */}
-            <input
-              name="nome_prod"
-              placeholder="Nome"
-              value={form.nome_prod}
-              onChange={handleChange}
-            />
+            
 
             {/* Subtipo condicional */}
             {form.tipo_produto === 'Paleta' && (

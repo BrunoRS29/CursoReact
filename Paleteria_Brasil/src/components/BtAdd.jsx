@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   inserirEstoque, 
   listarProdutosPorTipoESubtipo, 
-  listarSubtiposPorTipo 
+  listarSubtiposPorTipo, 
 } from '../services/estoque';
 import styles from '../styles/estoquebt.module.css';
 

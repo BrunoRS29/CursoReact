@@ -30,8 +30,15 @@
       {
         "from": "./backend",
         "to": "backend"
+      },
+      {
+        "from": "src/assets/icon.ico",
+        "to": "assets/icon.ico"
       }
-    ]
+    ],
+    "win": {
+      "icon": "public/icon.ico"
+    }
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
